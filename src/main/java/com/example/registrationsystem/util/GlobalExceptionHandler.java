@@ -1,6 +1,6 @@
 package com.example.registrationsystem.util;
 
-import com.example.registrationsystem.util.exception.CanNotSendForReviewException;
+import com.example.registrationsystem.util.exception.CanNotChangeStatusException;
 import com.example.registrationsystem.util.exception.CanNotUpdateRequestException;
 import com.example.registrationsystem.util.exception.InvalidPageIndexException;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,9 +34,9 @@ public class GlobalExceptionHandler {
         return logAndGetErrorInfo(req, ex, ErrorType.ENTITY_NOT_FOUND);
     }
 
-    @ExceptionHandler(CanNotSendForReviewException.class)
+    @ExceptionHandler(CanNotChangeStatusException.class)
     public ResponseEntity<ErrorInfo> handleCanNotSendForReviewException(HttpServletRequest req,
-                                                                        CanNotSendForReviewException ex) {
+                                                                        CanNotChangeStatusException ex) {
         return logAndGetErrorInfo(req, ex, ErrorType.BAD_REQUEST);
     }
 

@@ -73,7 +73,7 @@ class UserControllerTest {
     }
 
     @Test
-    void findRequestsByUserId() throws Exception {
+    void findRequestsByUserId_shouldReturnRequestDtoWithPagination() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/all-requests/3")
                         .param("order", "DESC")
                         .param("page", "0"))

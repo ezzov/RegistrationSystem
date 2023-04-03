@@ -7,7 +7,7 @@ import com.example.registrationsystem.models.enums.Status;
 import com.example.registrationsystem.repository.RequestRepository;
 import com.example.registrationsystem.repository.UserRepository;
 import com.example.registrationsystem.service.RequestService;
-import com.example.registrationsystem.util.exception.CanNotSendForReviewException;
+import com.example.registrationsystem.util.exception.CanNotChangeStatusException;
 import com.example.registrationsystem.util.exception.CanNotUpdateRequestException;
 import com.example.registrationsystem.util.exception.InvalidPageIndexException;
 import jakarta.persistence.EntityNotFoundException;
@@ -68,7 +68,7 @@ public class RequestServiceImpl implements RequestService {
             existRequest.setRequestText(newText);
             requestRepository.save(existRequest);
         } else {
-            throw new CanNotSendForReviewException();
+            throw new CanNotChangeStatusException();
         }
     }
 
@@ -77,13 +77,65 @@ public class RequestServiceImpl implements RequestService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found by id = " + userId));
         PageRequest pageRequest = PageRequest.of(page, 5);
-        Page<Request> pagebleRequests =
+        Page<Request> pageableRequests =
                 order == Order.ASC
                         ? requestRepository.findAllByUserOrderByDateOfCreationAsc(user, pageRequest)
                         : requestRepository.findAllByUserOrderByDateOfCreationDesc(user, pageRequest);
-        if (page >= pagebleRequests.getTotalPages()) {
+        if (page >= pageableRequests.getTotalPages()) {
             throw new InvalidPageIndexException();
         }
-        return pagebleRequests;
+        return pageableRequests;
+    }
+
+    @Override
+    public Page<Request> findAllSentRequests(Order order, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        Page<Request> pageableRequests =
+                order == Order.ASC
+                        ? requestRepository.findAllSentRequestsOrderByDateOfCreationAsc(pageRequest)
+                        : requestRepository.findAllSentRequestsOrderByDateOfCreationDesc(pageRequest);
+        if (page >= pageableRequests.getTotalPages()) {
+            throw new InvalidPageIndexException();
+        }
+        return pageableRequests;
+    }
+
+    @Override
+    public Page<Request> findAllSentRequestsByUserName(String userName, Order order, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        Page<Request> pageableRequests =
+                order == Order.ASC
+                        ? requestRepository.findSentRequestsByUserOrderByCreationAsc(userName, pageRequest)
+                        : requestRepository.findSentRequestsByUserOrderByCreationDesc(userName, pageRequest);
+        if (page >= pageableRequests.getTotalPages()) {
+            throw new InvalidPageIndexException();
+        }
+        return pageableRequests;
+    }
+
+    @Override
+    @Transactional
+    public void changeStatusSentToAccepted(long requestId) {
+        Request existRequest = requestRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("Request not found by id = " + requestId));
+        if (existRequest.getStatus().equals(Status.SENT)) {
+            existRequest.setStatus(Status.ACCEPTED);
+            requestRepository.save(existRequest);
+        } else {
+            throw new CanNotChangeStatusException();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void changeStatusSentToRejected(long requestId) {
+        Request existRequest = requestRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("Request not found by id = " + requestId));
+        if (existRequest.getStatus().equals(Status.SENT)) {
+            existRequest.setStatus(Status.REJECTED);
+            requestRepository.save(existRequest);
+        } else {
+            throw new CanNotChangeStatusException();
+        }
     }
 }

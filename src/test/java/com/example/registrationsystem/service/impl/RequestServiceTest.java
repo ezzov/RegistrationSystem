@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,8 +42,9 @@ class RequestServiceTest {
     private User user;
     private Request request1;
     private Request request2;
-    private List<Request> requestList;
+    private Request request3;
     private Page<Request> requestPage;
+    private Page<Request> requestPage1;
 
     @BeforeEach
     void setup() {
@@ -65,8 +68,15 @@ class RequestServiceTest {
                 .dateOfCreation(LocalDate.of(2021, 12, 1))
                 .user(user)
                 .build();
-        requestList = List.of(request1, request2);
-        requestPage = new PageImpl<>(requestList);
+        request3 = Request.builder()
+                .id(4l)
+                .status(Status.SENT)
+                .requestText("Question")
+                .dateOfCreation(LocalDate.of(2021, 10, 1))
+                .user(user)
+                .build();
+        requestPage = new PageImpl<>(List.of(request1, request2));
+        requestPage1 = new PageImpl<>(List.of(request2, request3));
     }
 
     @Test
@@ -90,6 +100,7 @@ class RequestServiceTest {
         when(requestRepository.findById(any())).thenReturn(Optional.of(request1));
         when(requestRepository.save(request1)).thenReturn(request1);
         requestService.changeStatusDraftToSent(3l);
+        verify(requestRepository, times(1)).save(request1);
         assertEquals(Status.SENT, request1.getStatus());
         assertEquals(textForOperator, request1.getRequestText());
     }
@@ -102,5 +113,42 @@ class RequestServiceTest {
         Page<Request> resultRequestPage = requestService.findRequestsByUserId(2l, Order.ASC, 0);
         assertEquals(1, resultRequestPage.getTotalPages());
         assertEquals(3l, resultRequestPage.getContent().get(0).getId());
+    }
+
+
+    @Test
+    void findAllSentRequests_shouldReturnPageOfRequests() {
+        when(requestRepository.findAllSentRequestsOrderByDateOfCreationAsc(PageRequest.of(0, 5)))
+                .thenReturn(requestPage1);
+        Page<Request> resultRequestPage = requestService.findAllSentRequests(Order.ASC, 0);
+        assertEquals(1, resultRequestPage.getTotalPages());
+        assertEquals(2l, resultRequestPage.getContent().get(0).getId());
+    }
+
+    @Test
+    void findAllSentRequestsByUserName_shouldReturnPageOfRequests() {
+        when(requestRepository.findSentRequestsByUserOrderByCreationAsc(user.getUserName(), PageRequest.of(0, 5)))
+                .thenReturn(requestPage1);
+        Page<Request> resultRequestPage = requestService.findAllSentRequestsByUserName("Anna", Order.ASC, 0);
+        assertEquals(1, resultRequestPage.getTotalPages());
+        assertEquals(2l, resultRequestPage.getContent().get(0).getId());
+    }
+
+    @Test
+    void changeStatusSentToAccepted_shouldChangeStatusToAccepted() {
+        when(requestRepository.findById(any())).thenReturn(Optional.of(request2));
+        when(requestRepository.save(request2)).thenReturn(request2);
+        requestService.changeStatusSentToAccepted(2l);
+        verify(requestRepository, times(1)).save(request2);
+        assertEquals(Status.ACCEPTED, request2.getStatus());
+    }
+
+    @Test
+    void changeStatusSentToRejected_shouldChangeStatusToRejected() {
+        when(requestRepository.findById(any())).thenReturn(Optional.of(request2));
+        when(requestRepository.save(request2)).thenReturn(request2);
+        requestService.changeStatusSentToRejected(2l);
+        verify(requestRepository, times(1)).save(request2);
+        assertEquals(Status.REJECTED, request2.getStatus());
     }
 }

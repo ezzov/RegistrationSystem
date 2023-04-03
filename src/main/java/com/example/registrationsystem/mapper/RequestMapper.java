@@ -2,6 +2,7 @@ package com.example.registrationsystem.mapper;
 
 import com.example.registrationsystem.dto.EditRequestDto;
 import com.example.registrationsystem.dto.RequestDto;
+import com.example.registrationsystem.dto.RequestDtoForResponse;
 import com.example.registrationsystem.dto.RequestDtoWithPagination;
 import com.example.registrationsystem.models.Request;
 import org.mapstruct.Mapper;
@@ -21,4 +22,7 @@ public interface RequestMapper {
     @Mapping(target = "totalPages", source = "totalPages")
     @Mapping(target = "requests", source = "content")
     RequestDtoWithPagination toRequestDtoWithPagination(Page<Request> requestPage);
+
+    @Mapping(target = "userName", source = "user.userName")
+    RequestDtoForResponse requestToRequestDtoForResponse(Request request);
 }

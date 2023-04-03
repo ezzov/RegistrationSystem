@@ -30,4 +30,6 @@ public class RequestDtoForResponse {
     @NotNull
     private LocalDate dateOfCreation;
 
+    @NotNull
+    private String userName;
 }
