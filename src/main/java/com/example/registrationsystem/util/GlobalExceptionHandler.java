@@ -1,5 +1,6 @@
 package com.example.registrationsystem.util;
 
+import com.example.registrationsystem.util.exception.AssignRoleRightsException;
 import com.example.registrationsystem.util.exception.CanNotChangeStatusException;
 import com.example.registrationsystem.util.exception.CanNotUpdateRequestException;
 import com.example.registrationsystem.util.exception.InvalidPageIndexException;
@@ -49,6 +50,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidPageIndexException.class)
     public ResponseEntity<ErrorInfo> handleInvalidPageIndexException(HttpServletRequest req,
                                                                      InvalidPageIndexException ex) {
+        return logAndGetErrorInfo(req, ex, ErrorType.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AssignRoleRightsException.class)
+    public ResponseEntity<ErrorInfo> handleAssignRoleRightsException(HttpServletRequest req,
+                                                                     AssignRoleRightsException ex) {
         return logAndGetErrorInfo(req, ex, ErrorType.BAD_REQUEST);
     }
 }

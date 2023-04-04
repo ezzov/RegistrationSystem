@@ -50,26 +50,26 @@ class RequestServiceTest {
     void setup() {
         textForOperator = "S-o-m-e- -u-s-e-f-u-l- -t-e-x-t";
         user = User.builder()
-                .id(2l)
+                .id(2L)
                 .userName("Anna")
                 .password("1234")
                 .build();
         request1 = Request.builder()
-                .id(3l)
+                .id(3L)
                 .status(Status.DRAFT)
                 .requestText("Some useful text")
                 .dateOfCreation(LocalDate.of(2022, 12, 1))
                 .user(user)
                 .build();
         request2 = Request.builder()
-                .id(2l)
+                .id(2L)
                 .status(Status.SENT)
                 .requestText("Urgent question")
                 .dateOfCreation(LocalDate.of(2021, 12, 1))
                 .user(user)
                 .build();
         request3 = Request.builder()
-                .id(4l)
+                .id(4L)
                 .status(Status.SENT)
                 .requestText("Question")
                 .dateOfCreation(LocalDate.of(2021, 10, 1))
@@ -83,7 +83,7 @@ class RequestServiceTest {
     void save_shouldSaveAndReturnSavedRequest() {
         when(requestRepository.save(request1)).thenReturn(request1);
         Request savedRequest = requestService.save(request1);
-        assertEquals(3l, savedRequest.getId());
+        assertEquals(3L, savedRequest.getId());
     }
 
     @Test
@@ -99,7 +99,7 @@ class RequestServiceTest {
     void changeStatusDraftToSent_shouldChangeRequestStatus() {
         when(requestRepository.findById(any())).thenReturn(Optional.of(request1));
         when(requestRepository.save(request1)).thenReturn(request1);
-        requestService.changeStatusDraftToSent(3l);
+        requestService.changeStatusDraftToSent(3L);
         verify(requestRepository, times(1)).save(request1);
         assertEquals(Status.SENT, request1.getStatus());
         assertEquals(textForOperator, request1.getRequestText());
@@ -110,9 +110,9 @@ class RequestServiceTest {
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
         when(requestRepository.findAllByUserOrderByDateOfCreationAsc(user, PageRequest.of(0, 5)))
                 .thenReturn(requestPage);
-        Page<Request> resultRequestPage = requestService.findRequestsByUserId(2l, Order.ASC, 0);
+        Page<Request> resultRequestPage = requestService.findRequestsByUserId(2L, Order.ASC, 0);
         assertEquals(1, resultRequestPage.getTotalPages());
-        assertEquals(3l, resultRequestPage.getContent().get(0).getId());
+        assertEquals(3L, resultRequestPage.getContent().get(0).getId());
     }
 
 
@@ -122,7 +122,7 @@ class RequestServiceTest {
                 .thenReturn(requestPage1);
         Page<Request> resultRequestPage = requestService.findAllSentRequests(Order.ASC, 0);
         assertEquals(1, resultRequestPage.getTotalPages());
-        assertEquals(2l, resultRequestPage.getContent().get(0).getId());
+        assertEquals(2L, resultRequestPage.getContent().get(0).getId());
     }
 
     @Test
@@ -131,14 +131,14 @@ class RequestServiceTest {
                 .thenReturn(requestPage1);
         Page<Request> resultRequestPage = requestService.findAllSentRequestsByUserName("Anna", Order.ASC, 0);
         assertEquals(1, resultRequestPage.getTotalPages());
-        assertEquals(2l, resultRequestPage.getContent().get(0).getId());
+        assertEquals(2L, resultRequestPage.getContent().get(0).getId());
     }
 
     @Test
     void changeStatusSentToAccepted_shouldChangeStatusToAccepted() {
         when(requestRepository.findById(any())).thenReturn(Optional.of(request2));
         when(requestRepository.save(request2)).thenReturn(request2);
-        requestService.changeStatusSentToAccepted(2l);
+        requestService.changeStatusSentToAccepted(2L);
         verify(requestRepository, times(1)).save(request2);
         assertEquals(Status.ACCEPTED, request2.getStatus());
     }
@@ -147,7 +147,7 @@ class RequestServiceTest {
     void changeStatusSentToRejected_shouldChangeStatusToRejected() {
         when(requestRepository.findById(any())).thenReturn(Optional.of(request2));
         when(requestRepository.save(request2)).thenReturn(request2);
-        requestService.changeStatusSentToRejected(2l);
+        requestService.changeStatusSentToRejected(2L);
         verify(requestRepository, times(1)).save(request2);
         assertEquals(Status.REJECTED, request2.getStatus());
     }

@@ -3,7 +3,6 @@ package com.example.registrationsystem.service;
 import com.example.registrationsystem.models.Request;
 import com.example.registrationsystem.models.enums.Order;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface RequestService {
 

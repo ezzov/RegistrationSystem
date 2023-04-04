@@ -1,8 +1,11 @@
 DELETE FROM users;
 DELETE FROM requests;
+DELETE FROM roles;
+DELETE FROM users_roles;
 
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE requests_id_seq RESTART WITH 1;
+ALTER SEQUENCE roles_id_seq RESTART WITH 1;
 
 INSERT INTO users( username, password, email)
 VALUES ('Mark', 'Mark', 'mark@gmail.com'),
@@ -25,4 +28,18 @@ VALUES ('DRAFT', 'Mark Text1', '2022-12-14 13:06:28.580532', 1),
        ('DRAFT', 'Adam Text1', '2022-12-14 11:06:28.580532', 3),
        ('SENT', 'Adam Text2', '2022-11-14 13:06:28.580532', 3),
        ('DRAFT', 'Harry Text1', '2022-12-14 15:06:28.580532', 4);
+
+INSERT INTO roles(role)
+VALUES ('USER'),
+       ('OPERATOR'),
+       ('ADMIN');
+
+INSERT INTO users_roles(user_id, role_id)
+VALUES (1, 1),
+       (2, 1),
+       (3, 1),
+       (4, 1),
+       (4, 2),
+       (5, 2),
+       (6, 3);
 
