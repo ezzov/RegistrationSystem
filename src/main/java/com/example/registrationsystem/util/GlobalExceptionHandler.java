@@ -4,6 +4,7 @@ import com.example.registrationsystem.util.exception.AssignRoleRightsException;
 import com.example.registrationsystem.util.exception.CanNotChangeStatusException;
 import com.example.registrationsystem.util.exception.CanNotUpdateRequestException;
 import com.example.registrationsystem.util.exception.InvalidPageIndexException;
+import com.example.registrationsystem.util.exception.InvalidPasswordException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AssignRoleRightsException.class)
     public ResponseEntity<ErrorInfo> handleAssignRoleRightsException(HttpServletRequest req,
                                                                      AssignRoleRightsException ex) {
+        return logAndGetErrorInfo(req, ex, ErrorType.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ErrorInfo> handleInvalidPasswordException(HttpServletRequest req,
+                                                                    InvalidPasswordException ex) {
         return logAndGetErrorInfo(req, ex, ErrorType.BAD_REQUEST);
     }
 }

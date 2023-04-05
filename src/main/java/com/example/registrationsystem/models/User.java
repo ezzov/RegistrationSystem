@@ -49,7 +49,7 @@ public class User {
     private String email;
 
     @ManyToMany
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(name = "Users_Roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
