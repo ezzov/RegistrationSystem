@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Security config that ensures only authenticated users
+ */
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
@@ -28,8 +31,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/login/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/v1/user/**").hasAuthority("USER")
-                        .requestMatchers("/api/v1/operator/**").hasAnyRole("OPERATOR")
-                        .requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/api/v1/operator/**").hasAuthority("OPERATOR")
+                        .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

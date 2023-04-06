@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Class that handles security exception
+ */
 @Slf4j
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {

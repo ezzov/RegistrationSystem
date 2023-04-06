@@ -8,12 +8,12 @@ ALTER SEQUENCE requests_id_seq RESTART WITH 1;
 ALTER SEQUENCE roles_id_seq RESTART WITH 1;
 
 INSERT INTO users( username, password, email)
-VALUES ('Mark', 'Mark', 'mark@gmail.com'),
-       ('Katrin', 'Katrin', 'katrin@gmail.com'),
-       ('Adam', 'Adam', 'adam@gmail.com'),
-       ('Harry', 'Harry', 'harry@gmail.com'),
-       ('Keily', 'Keily', 'keily@gmail.com'),
-       ('Valery', 'Valery', 'valery@gmail.com');
+VALUES ('Mark', '$2a$12$dKuce2XHGTTdkiWNdnz6RuyBj3YCTuL.9EDICHmBEfF9Ct.EOisd.', 'mark@gmail.com'),
+       ('Katrin', '$2a$12$WzLtGJWi5qdHlb.aW5w69.Pj0Le4C0Qmh7KAKDbAXLi5IvYsuwNDG', 'katrin@gmail.com'),
+       ('Adam', '$2a$12$a6LmI5AqJcyc8VzJ5qRkoOl0C9cU0sLHRiTU/YasN9ghK0av0Rje6', 'adam@gmail.com'),
+       ('Harry', '$2a$12$VCXWrMt5fwwQxEzgJZ9LFuioYMzgJWyOPxYpSOwAiOVoO1/hFUFXe', 'harry@gmail.com'),
+       ('Keily', '$2a$12$eCCLakVKwqgedH6cyTx.SOiViU/kdfi0wFa0E.LSKlObywbkFaDkO', 'keily@gmail.com'),
+       ('Valery', '$2a$12$49WAd6gjfk5rPWqIzPSkCu/nV/lo.8fgIHGRVmx3foXMBsKQehS8m', 'valery@gmail.com');
 
 INSERT INTO requests(status, request_text, date_of_creation, user_id)
 VALUES ('DRAFT', 'Mark Text1', '2022-12-14 13:06:28.580532', 1),

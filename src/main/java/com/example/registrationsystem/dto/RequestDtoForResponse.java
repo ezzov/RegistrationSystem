@@ -12,6 +12,10 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
+/**
+ * Data transfer object that is used in
+ * {@link RequestDtoWithPagination}
+ */
 @Getter
 @Setter
 @Builder
@@ -19,17 +23,25 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestDtoForResponse {
-
+    /**
+     * Status of request
+     */
     @NotNull
     private Status status;
-
+    /**
+     * Text of request
+     */
     @NotNull
     @Size(max = 500)
     private String requestText;
-
+    /**
+     * Date of creation of request
+     */
     @NotNull
     private LocalDate dateOfCreation;
-
+    /**
+     * Request owner username
+     */
     @NotNull
     private String userName;
 }

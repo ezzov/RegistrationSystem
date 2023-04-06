@@ -24,6 +24,9 @@ import org.hibernate.annotations.FetchMode;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entity that stores data about user
+ */
 @Entity
 @Setter
 @Getter
@@ -43,9 +46,11 @@ public class User {
     private String userName;
 
     @NotNull
+    @Column(name = "password")
     private String password;
 
     @Email
+    @Column(name = "email")
     private String email;
 
     @ManyToMany

@@ -22,6 +22,9 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
+/**
+ * Entity that stores data about request
+ */
 @Entity
 @Setter
 @Getter
@@ -42,10 +45,11 @@ public class Request {
 
     @NotNull
     @Size(max = 500)
+    @Column(name = "request_text")
     private String requestText;
 
     @NotNull
-    @Column(name = "dateOfCreation")
+    @Column(name = "date_of_creation")
     private LocalDate dateOfCreation;
 
     @ManyToOne

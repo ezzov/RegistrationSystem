@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Entity that stores data about role
+ */
 @Entity
 @Setter
 @Getter

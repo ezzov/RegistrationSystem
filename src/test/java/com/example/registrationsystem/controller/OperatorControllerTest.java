@@ -6,6 +6,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +29,7 @@ class OperatorControllerTest {
     private final String URL = "/api/v1/operator";
 
     @Test
+    @WithMockUser(username = "Keily", authorities = "OPERATOR", password = "Keily")
     void findAllRequests_shouldReturnRequestDtoWithPagination() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL)
                         .param("order", "DESC")
@@ -38,6 +40,7 @@ class OperatorControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "Keily", authorities = "OPERATOR", password = "Keily")
     void findAllRequestsByUserName_shouldReturnRequestDtoWithPagination() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/by-username")
                         .param("userName", "ad")
@@ -49,6 +52,7 @@ class OperatorControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "Keily", authorities = "OPERATOR", password = "Keily")
     void acceptRequest_shouldChangeStatusToAccepted() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.patch(URL + "/accept")
                         .param("requestId", "3"))
@@ -57,6 +61,7 @@ class OperatorControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "Keily", authorities = "OPERATOR", password = "Keily")
     void rejectRequest_shouldChangeStatusToRejected() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.patch(URL + "/reject")
                         .param("requestId", "7"))

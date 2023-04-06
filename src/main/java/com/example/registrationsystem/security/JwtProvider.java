@@ -10,6 +10,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.example.registrationsystem.models.User;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -46,7 +47,7 @@ public class JwtProvider {
     public String generateAccessToken(String subject) {
         Date tokenTimeOut = Date.from(now().plusMinutes(securityProperties.getAccessTokenTimeoutInMinutes())
                 .atZone(ZoneId.systemDefault()).toInstant());
-
+        log.info("Return access token");
         return Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(tokenTimeOut)
@@ -62,7 +63,7 @@ public class JwtProvider {
     public String generateRefreshToken(String subject) {
         Date tokenTimeOut = Date.from(now().plusMinutes(securityProperties.getRefreshTokenTimeoutInMinutes())
                 .atZone(ZoneId.systemDefault()).toInstant());
-
+        log.info("Return refresh token");
         return Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(tokenTimeOut)
@@ -73,18 +74,26 @@ public class JwtProvider {
     /**
      * Method that validates AccessToken.
      * @param accessToken AccessToken for subsequent requests
-     * @return {@link Boolean} true if can parse claims Jws, otherwise false
+     * @return {@link Boolean} true if it can parse claims Jws, otherwise false
      */
     public boolean validateAccessToken(String accessToken) {
+        log.info("Return true if access token is valid");
         return validateToken(accessToken, jwtAccessSecret);
     }
 
+    /**
+     * Method that validates Token.
+     * @param token Token
+     * @param secret {@link Key}
+     * @return {@link Boolean} true if it can parse claims Jws, otherwise false
+     */
     private boolean validateToken(String token, Key secret) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(secret)
                     .build()
                     .parseClaimsJws(token);
+            log.info("Return true if can parse claims Jws");
             return true;
         } catch (ExpiredJwtException expEx) {
             log.error("Token expired", expEx);
@@ -100,13 +109,20 @@ public class JwtProvider {
         return false;
     }
 
+    /**
+     * Method that gets user id from token
+     * @param token Access Token
+     * @return userId from {@link User}
+     */
     public long getUserIdFromToken(String token) {
+        log.info("Parse access token to userId");
         String userId = Jwts.parserBuilder()
                 .setSigningKey(jwtAccessSecret)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+        log.info("Return userId");
         return Long.parseLong(userId);
     }
 }

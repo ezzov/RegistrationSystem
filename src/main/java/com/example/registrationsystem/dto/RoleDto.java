@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Data transfer object that is used in
+ * {@link UserDto}
+ */
 @Setter
 @Getter
 @Builder
@@ -15,7 +19,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleDto {
-
+    /**
+     * Role of user
+     */
     @NotNull
     private String role;
 }

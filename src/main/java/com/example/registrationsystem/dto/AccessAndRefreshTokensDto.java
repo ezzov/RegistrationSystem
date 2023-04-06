@@ -7,7 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import com.example.registrationsystem.controller.AuthenticationController;
 
+/**
+ * Data transfer object that is used in response of
+ * {@link AuthenticationController#login(LoginDto)}
+ */
 @Getter
 @Setter
 @Builder

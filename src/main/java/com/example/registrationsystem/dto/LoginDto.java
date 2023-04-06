@@ -8,7 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import com.example.registrationsystem.controller.AuthenticationController;
 
+/**
+ * Data transfer object that is used in
+ * {@link AuthenticationController#login(LoginDto)}
+ */
 @Getter
 @Setter
 @Builder
@@ -16,10 +21,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginDto {
-
+    /**
+     * User email
+     */
     @Email
     private String email;
-
+    /**
+     * User password
+     */
     @NotNull
     private String password;
 }

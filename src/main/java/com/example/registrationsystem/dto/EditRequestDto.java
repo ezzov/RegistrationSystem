@@ -8,7 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import com.example.registrationsystem.controller.UserController;
 
+/**
+ * Data transfer object that is used in
+ * {@link UserController#editDraftRequest(EditRequestDto)}
+ */
 @Setter
 @Getter
 @Builder
@@ -16,10 +21,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditRequestDto {
-
+    /**
+     * Request id
+     */
     @NotNull
     private long id;
-
+    /**
+     * New request text
+     */
     @NotNull
     @Size(max = 500)
     private String requestText;
