@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -17,6 +18,7 @@ import java.io.UnsupportedEncodingException;
  * Filter base class that aims to guarantee a single execution per request dispatch, on any servlet container.
  */
 @Slf4j
+@Component
 public class LoggingFilter extends OncePerRequestFilter {
 
     /**
