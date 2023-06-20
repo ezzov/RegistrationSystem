@@ -109,6 +109,19 @@
             <artifactId>commons-net</artifactId>
             <version>3.9.0</version>
         </dependency>
+        <!-- JAXB API only -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- JAXB RI, EclipseLink MOXy -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
